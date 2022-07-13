@@ -20,6 +20,7 @@ remappings = [
   "@openzeppelin=lib/openzeppelin-contracts/contracts/",
   "@solenv/=lib/solenv/src/",
 ]
+test = 'test'
 
 # Extreme Fuzzing CI Profile :P
 [ci]
