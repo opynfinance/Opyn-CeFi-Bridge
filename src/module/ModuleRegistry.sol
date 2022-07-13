@@ -17,18 +17,18 @@ contract ModuleRegistry {
     }
 
     modifier onlyOwner() {
-        if(msg.sender != owner) {
+        if (msg.sender != owner) {
             revert Unauthorized();
         }
 
         _;
     }
 
-    function addModule(address _moduleAddr) external onlyOwner() {
+    function addModule(address _moduleAddr) external onlyOwner {
         _modules[_moduleAddr] = true;
     }
 
-    function removeModule(address _moduleAddr) external onlyOwner() {
+    function removeModule(address _moduleAddr) external onlyOwner {
         _modules[_moduleAddr] = false;
     }
 

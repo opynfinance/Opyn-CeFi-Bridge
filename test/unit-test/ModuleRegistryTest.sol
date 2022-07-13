@@ -27,7 +27,6 @@ contract ModuleRegistryTest is Test {
         owner = vm.addr(ownerPrivateKey);
         random = vm.addr(randomPrivateKey);
 
-
         moduleRegistry = new ModuleRegistry(owner);
 
         vm.label(owner, "Owner");
@@ -68,7 +67,7 @@ contract ModuleRegistryTest is Test {
     function testFuzzingAddRemoveModule(address _moduleAddr) public {
         _addModule(_moduleAddr);
         _removeModule(_moduleAddr);
-    } 
+    }
 
     function _addModule(address _add) private {
         vm.startPrank(owner);
