@@ -2,10 +2,6 @@ pragma solidity =0.8.13;
 
 // test dependency
 import "@std/Test.sol";
-// import {SigUtils} from "../src/utils/SigUtils.sol";
-// import {MockERC20} from "@solmate/test/utils/mocks/MockERC20.sol";
-// import {console} from "@std/console.sol";
-
 // contract
 import {ModuleRegistry} from "../../src/module/ModuleRegistry.sol";
 
