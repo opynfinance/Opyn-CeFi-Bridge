@@ -1,6 +1,6 @@
 on: [push]
 
-name: test
+name: Coverage
 
 jobs:
   check:
@@ -16,8 +16,5 @@ jobs:
         with:
           version: nightly
 
-      - name: Run tests
-        run: FOUNDRY_PROFILE=ci forge test -vvv
-
-      - name: Run snapshot
-        run: FOUNDRY_PROFILE=ci forge snapshot
+      - name: Run coverage
+        run: FOUNDRY_PROFILE=ci forge coverage

@@ -25,6 +25,9 @@ scripts :; chmod +x ./scripts/*
 # Tests
 test :; forge clean && forge test --optimize --optimizer-runs 1000000 -v # --ffi # enable if you need the `ffi` cheat code on HEVM
 
+# Coverage
+coverage :; forge clean && forge coverage
+
 # Lints
 lint :; prettier --write src/**/*.sol && prettier --write test/**/*.sol
 
