@@ -1,21 +1,20 @@
-name: Coverage
-
 on: [push]
 
-jobs:
-  coverage:
-    runs-on: ubuntu-latest
+name: Coverage
 
+jobs:
+  check:
+    name: Foundry project
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
       - name: Install Foundry
-        uses: onbjerg/foundry-toolchain@v1
+        uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
-      - name: Install Dependencies
-        run: yarn
-      - name: Update Modules
-        run: yarn sync
-      - name: Run Coverage
-        run: FOUNDRY_PROFILE=ci yarn coverage
+
+      - name: Run coverage
+        run: FOUNDRY_PROFILE=ci forge coverage
