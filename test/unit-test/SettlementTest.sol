@@ -12,23 +12,28 @@ contract SettlementTest is Test {
     MockERC20 internal squeeth;
     Settlement internal settlement;
 
+    uint256 internal ownerPrivateKey;
     uint256 internal sellerPrivateKey;
     uint256 internal buyerPrivateKey;
     uint256 internal randomPrivateKey;
+    address internal owner;
     address internal seller;
     address internal buyer;
     address internal random;
 
     function setUp() public {
+        ownerPrivateKey = 0xAAAA;
         sellerPrivateKey = 0xA11CE;
         buyerPrivateKey = 0xb11CE;
         randomPrivateKey = 0xA11DE;
+        owner = vm.addr(ownerPrivateKey);
         seller = vm.addr(sellerPrivateKey);
         buyer = vm.addr(buyerPrivateKey);
         random = vm.addr(randomPrivateKey);
 
         usdc = new MockERC20("USDC", "USDC", 6);
         squeeth = new MockERC20("SQUEETH", "oSQTH", 18);
+        vm.prank(owner);
         settlement = new Settlement();
 
         vm.label(seller, "Seller");
@@ -117,4 +122,17 @@ contract SettlementTest is Test {
         settlement.createBuyOffer(address(usdc), address(squeeth), 10e18, 1e18, 0);
         vm.stopPrank();
     }
+
+    function testSetFeeForRecipient() public {
+        vm.prank(owner);
+        settlement.setFeeForRecipient(address(0xfee), 3e16);
+        assertEq(settlement.fee(address(0xfee)), 3e16);
+    }
+
+    function testRevertSetFeeForRecipient() public {
+        vm.expectRevert("Ownable: caller is not the owner");
+        vm.prank(random);
+        settlement.setFeeForRecipient(address(0xfee), 3e16);
+    }
+
 }

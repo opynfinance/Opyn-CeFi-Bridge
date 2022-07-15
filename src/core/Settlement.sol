@@ -3,12 +3,14 @@ pragma solidity =0.8.13;
 
 // interface
 import {IERC20Metadata as IERC20} from "@openzeppelin/token/ERC20/extensions/IERC20Metadata.sol";
+// contract
+import {Ownable} from "@openzeppelin/access/Ownable.sol";
 
 /**
  * @title Settlement
  * @author Haythem Sellami
  */
-contract Settlement {
+contract Settlement is Ownable {
     error InvalidMinBidSize();
     error InvalidMinPrice();
     error InvalidMaxBidSize();
@@ -41,6 +43,7 @@ contract Settlement {
         uint256 bidId;
         address assetToSell;
         address assetToBuy;
+        address feeRecipient;
         uint256 bidAmount;
         uint256 offerAmountToTrade;
         uint8 v;
@@ -55,7 +58,9 @@ contract Settlement {
 
     mapping(uint256 => SellOffer) public sellOffers;
     mapping(uint256 => BuyOffer) public buyOffers;
+    mapping(address => uint256) public fee;
 
+    event SetFeeForRecipient(address indexed recipient, uint256 fee);
     event CreateSellOffer(
         address indexed seller,
         uint256 offerId,
@@ -65,7 +70,6 @@ contract Settlement {
         uint256 minBidSize,
         uint256 minPrice
     );
-
     event CreateBuyOffer(
         address indexed buyer,
         uint256 offerId,
@@ -94,6 +98,12 @@ contract Settlement {
         }
 
         _;
+    }
+
+    function setFeeForRecipient(address _feeRecipient, uint256 _fee) external onlyOwner() {
+        fee[_feeRecipient] = _fee;
+
+        emit SetFeeForRecipient(_feeRecipient, _fee);
     }
 
     function createSellOffer(address _assetToSell, address _assetToBuy, uint256 _totalSize, uint256 _minBidSize, uint256 _minPrice)
